@@ -22,21 +22,26 @@ driver.find_element_by_name('userPwd').send_keys(userPWD)
 
 driver.find_element_by_css_selector('a.btn-lg').click()
 
-# 로그인 확인 필요
-
-# 로그인 완료시, 버튼 사라짐을 이용한 로그인/로그아웃 분류
+# 로그인 확인 필요 : 해당페이지의 사용자 이름을 가져올 수 있으면, 완료!
 try :
-    # 출석체크
-    driver.find_element_by_id('checkIn').click()
-    driver.get('https://edu.ssafy.com/edu/main/index.do')
-    checkin_time = driver.find_element_by_css_selector('div.state > span > span').text
-    print('입실시간 : '+checkin_time)
-    driver.quit()
-except :
-    # 퇴실체크
-    driver.find_element_by_id('checkOut').click()
-    driver.get('https://edu.ssafy.com/edu/main/index.do')
-    checkout_time = driver.find_element_by_css_selector('div.state2 > a > span').text
-    print('퇴실시간 : '+checkout_time)
-    driver.quit()
+    user_name = driver.find_element_by_css_selector('div.profile-area > div.profile-set.hidden-field > a > div > span:nth-child(2) > em').text
+    print(user_name+'님, 로그인 성공!')
+
+    # 로그인 완료시, 버튼 사라짐을 이용한 로그인/로그아웃 분류
+    try :
+        driver.find_element_by_id('checkIn').click()
+        driver.get('https://edu.ssafy.com/edu/main/index.do')
+        checkin_time = driver.find_element_by_css_selector('div.state > span > span').text
+        print('입실시간 : '+checkin_time)
+        driver.quit()
+
+    except : 
+        driver.find_element_by_id('checkOut').click()
+        driver.get('https://edu.ssafy.com/edu/main/index.do')
+        checkout_time = driver.find_element_by_css_selector('div.state2 > a > span').text
+        print('퇴실시간 : '+checkout_time)
+        driver.quit()
+except : 
+    print('로그인에 실패했습니다.')
+
 
